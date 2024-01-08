@@ -5,38 +5,23 @@ import 'react-toastify/dist/ReactToastify.css';
 import styles from './searchbar.module.css';
 
 class Searchbar extends Component {
-  state = {
-    searchString: '',
-  };
-
-  handleChange = event => {
-    this.setState({
-      searchString: event.target.value,
-    });
-  };
-
   handleSubmit = event => {
     event.preventDefault();
+    const searchString = event.currentTarget.lastChild.value;
 
-    if (this.state.searchString === '') {
+    if (searchString === '') {
       toast.error('The search field should not be empty.', {
         position: toast.POSITION.TOP_LEFT,
       });
       return;
     }
-    this.props.onSubmit(this.state.searchString);
+    this.props.onSubmit(searchString);
   };
 
   render() {
-    const { searchString } = this.state;
-
     return (
       <header className={styles.searchbar}>
-        <form
-          className={styles.form}
-          onSubmit={this.handleSubmit}
-          onChange={this.handleChange}
-        >
+        <form className={styles.form} onSubmit={this.handleSubmit}>
           <button className={styles.button} type="submit">
             <span className={styles.button_label}></span>
           </button>
@@ -46,7 +31,6 @@ class Searchbar extends Component {
             autoComplete="off"
             autoFocus
             placeholder="Search images and photos"
-            value={searchString}
           />
         </form>
       </header>
