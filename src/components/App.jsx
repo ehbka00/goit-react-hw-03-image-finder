@@ -22,6 +22,10 @@ export class App extends Component {
 
     if (prevSearchString !== currentSearchString || currentPage !== prevPage) {
       this.setState({ isLoading: true });
+      // if (prevPage.state.images.length < 12) {
+      //   return;
+      // }
+      console.log(prevState);
       try {
         const response = getGalleryItems(currentSearchString, currentPage);
         response
@@ -30,6 +34,7 @@ export class App extends Component {
             Promise.reject(new Error('Something went wrong'));
           })
           .then(images => {
+            console.log(images);
             this.setState(prevState => ({
               images: [...prevState.images, ...images.hits],
               isLoading: false,
@@ -82,7 +87,9 @@ export class App extends Component {
         <ImageGallery images={images} onClick={this.handleItemClick} />
         {showModal && <Modal onClose={this.toggleModal} item={currentItem} />}
         {isLoading && <Loader />}
-        {images.length > 0 && <Button onClick={this.handleClick} />}
+        {images.length > 0 && images.length % 2 === 0 && (
+          <Button onClick={this.handleClick} />
+        )}
       </>
     );
   }
